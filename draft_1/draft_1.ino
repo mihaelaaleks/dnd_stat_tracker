@@ -17,8 +17,11 @@ unsigned long lastDebounceTimeBtn1 = 0;
 unsigned long lastDebounceTimeBtn2 = 0;
 
 int diceNumber = 0;
+const int TOTAL_DICE = 7;
+String dice[TOTAL_DICE] = {"D100", "D20", "D12", "D10", "D8", "D6", "D4"};
+int numberDice[TOTAL_DICE] = {100, 20, 12, 10, 8, 6, 4};
 
-String diceArray[7] = {"D100", "D20", "D12", "D10", "D8", "D6", "D4"};
+int diceRoll = 0;
 
 void setup() {
   Serial.begin(9600);
@@ -34,9 +37,19 @@ void loop() {
   currentStateBtn2 = digitalRead(PIN_BTN_2);
 
   changeDiceButton();
+
   rollDiceButton();
+  
+  if (diceNumber % TOTAL_DICE == 0) {
+    diceNumber = 0;
+  }
+
+  String die = dice[diceNumber];
+
 
 }
+
+
 
 void changeDiceButton() {
   if (currentStateBtn1 != lastReadableStateBtn1) {
@@ -47,32 +60,34 @@ void changeDiceButton() {
   if ((millis() - lastDebounceTimeBtn1) > DEBOUNCE_DELAY_BTN_1) {
     if (lastSteadyStateBtn1 == HIGH && currentStateBtn1 == LOW) {
       ++diceNumber;
-      Serial.println(diceNumber); //why does this stay 1 lmao 
       }
     else if (lastSteadyStateBtn1 == LOW && currentStateBtn1 == HIGH)
-      Serial.println("Button 1 is released chief");
+      Serial.println("Change dice is released chief");
 
     //save the last state
     lastSteadyStateBtn1 = currentStateBtn1;
   }
 }
 
-  void rollDiceButton() {
+void rollDiceButton() {
     if (currentStateBtn2 != lastReadableStateBtn2) {
       lastDebounceTimeBtn2 = millis();
       lastReadableStateBtn2 = currentStateBtn2;
     }
 
     if ((millis() - lastDebounceTimeBtn2) > DEBOUNCE_DELAY_BTN_2) {
-      if (lastSteadyStateBtn2 == HIGH && currentStateBtn2 == LOW)
-        Serial.println("Roll die");
-      else if (lastSteadyStateBtn2 == LOW && currentStateBtn2 == HIGH)
-        Serial.println("Button 2 s released chief");
-
+      if (lastSteadyStateBtn2 == HIGH && currentStateBtn2 == LOW){
+        int dice = numberDice[diceNumber];
+        diceRoll = (rand() % dice)+1;
+        String output = "Dice " + String(dice) + " roll: " + String(diceRoll);
+        Serial.println(output);
+      }
+      else if (lastSteadyStateBtn2 == LOW && currentStateBtn2 == HIGH){
+        Serial.println("Button roll die is released chief");
+      }
       //save the last state
       lastSteadyStateBtn2 = currentStateBtn2;
     }
 
   }
-
   
