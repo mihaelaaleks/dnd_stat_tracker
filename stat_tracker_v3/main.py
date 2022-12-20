@@ -1,82 +1,71 @@
-import pygame, sys
-from button import Button
-import setup
+import tkinter as tk
+from tkinter import ttk
 
-pygame.init()
+# window
+window = tk.Tk()
+window.title('D&D Tool')
+window.geometry('600x600')
+window.minsize(600, 600)
 
-game_paused = False
-menu_state = "main"
-screen = pygame.display.set_mode((setup.SCREEN_WIDTH, setup.SCREEN_HEIGHT))
-pygame.display.set_caption("Main Menu")
+# main layout widgets
+menu_frame = ttk.Frame(window)
+main_frame = ttk.Frame(window)
 
-bg = pygame.image.load(setup.BG_IMG)
+# main place layout
+menu_frame.place(x = 0, y = 0, relwidth = 0.3, relheight = 1)
+main_frame.place(relx = 0.3, y = 0, relwidth= 0.7, relheight= 1)
 
-font = pygame.font.Font("assets/font.ttf", 40)
+# menu widgets
+menu_button1 = ttk.Button(menu_frame, text = 'Button 1')
+menu_button2 = ttk.Button(menu_frame, text = 'Button 2')
+menu_button3 = ttk.Button(menu_frame, text = 'Button 3')
 
-options_button = Button(304, 125, setup.BTN_IMG, 1)
-resume_button = Button(304, 125, setup.BTN_IMG, 1)
-dice_button = Button(304, 125, setup.BTN_IMG, 1)
-sheet_button = Button(304, 125, setup.BTN_IMG, 1)
-quit_button = Button(304, 125, setup.BTN_IMG, 1)
+menu_slider1 = ttk.Scale(menu_frame, orient='vertical')
+menu_slider2 = ttk.Scale(menu_frame, orient='vertical')
 
-def draw_text(text, font, text_col, x, y): 
-    img = font.render(text, True, text_col)
-    screen.blit(img, (x,y))
-    
-# game loop 
-run = True
-while run: 
-    screen.fill(bg)
-    
-    if game_paused == True: 
-        if menu_state == "main": 
-            if resume_button.draw(screen):
-                game_paused = False
-            if options_button.draw(screen): 
-                menu_state = "options"
-            if quit_button.draw(screen): 
-                pygame.quit()
-                sys.exit()
+toggle_frame = ttk.Frame(menu_frame)
+menu_toggle1 = ttk.Checkbutton(toggle_frame, text = 'check 1')
+menu_toggle2 = ttk.Checkbutton(toggle_frame, text = 'check 2')
 
-                    
-def main_menu(): 
-    while True: 
-        SCREEN.blit(BG, (0,0))
-        
-        MENU_MOUSE_POS = pygame.mouse.get_pos()
-        
-        MENU_TEXT = get_font(100).render("D&D HelpeR", True, "#b68f40")
-        MENU_RECT = MENU_TEXT.get_rect(center=(640, 100))
-        
-        
-        PLAY_BUTTON = Button(image = pygame.image.load("assets/rect.png"), pos=(640,250), text_input="PLAY", font=get_font(30), 
-                             base_color="#d7fcd4", hovering_color="White")
-        OPTIONS_BUTTON = Button(image = pygame.image.load("assets/rect.png"), pos=(640,400), text_input="OPTIONS", font=get_font(30), 
-                             base_color="#d7fcd4", hovering_color="White")
-        QUIT_BUTTON = Button(image = pygame.image.load("assets/rect.png"), pos=(640,550), text_input="QUIT", font=get_font(30), 
-                             base_color="#d7fcd4", hovering_color="White")
-        
-        SCREEN.blit(MENU_TEXT, MENU_RECT)
-        
-        buttons = [PLAY_BUTTON, OPTIONS_BUTTON, QUIT_BUTTON]
-        
-        for button in buttons: 
-            button.changeColor(MENU_MOUSE_POS)
-            button.update(SCREEN)
-            
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT: 
-                pygame.quit()
-                sys.exit()
-            if event.type == pygame.MOUSEBUTTONDOWN: 
-                if PLAY_BUTTON.checkForInput(MENU_MOUSE_POS): 
-                    play()
-                if OPTIONS_BUTTON.checkForInput(MENU_MOUSE_POS): 
-                    options()
-                if QUIT_BUTTON.checkForInput(MENU_MOUSE_POS): 
-                    pygame.quit()
-                    sys.exit()
-        
-        pygame.display.update()
-        
-main_menu()
+entry = ttk.Entry(menu_frame)
+
+# menu layout
+menu_frame.columnconfigure((0,1,2), weight = 1, uniform = 'a')
+menu_frame.rowconfigure((0,1,2,3,4), weight = 1, uniform = 'a')
+
+menu_button1.grid(row = 0, column = 0, sticky = 'nswe', columnspan = 2, padx = 4, pady = 4)
+menu_button2.grid(row = 0, column = 2, sticky = 'nswe', padx = 4, pady = 4)
+menu_button3.grid(row = 1, column = 0, sticky = 'nswe', columnspan = 3, padx = 4, pady = 4)
+
+menu_slider1.grid(row = 2, column = 0, rowspan = 2, sticky = 'nsew', pady = 20)
+menu_slider2.grid(row = 2, column = 0, rowspan = 2, sticky = 'nsew', pady = 20)
+
+# toggle layout
+toggle_frame.grid(row = 4, column = 0, columnspan = 3, sticky = 'nsew')
+menu_toggle1.pack(side = 'left', expand = True)
+menu_toggle2.pack(side = 'left', expand = True)
+
+# entry layout
+entry.place(relx = 0.5, rely = 0.95, relwidth = 0.9, anchor = 'center')
+
+# main widgets
+entry_frame1 = ttk.Frame(main_frame)
+main_label1 = ttk.Label(entry_frame1, text = 'label 1', background = 'red')
+main_button1 = ttk.Button(entry_frame1, text = 'Button 1')
+
+entry_frame2 = ttk.Frame(main_frame)
+main_label2 = ttk.Label(entry_frame2, text = 'label 2', background = 'blue')
+main_button2 = ttk.Button(entry_frame2, text = 'Button 2')
+
+# main layout
+entry_frame1.pack(side='left', expand = True, fill = 'both', padx = 20, pady = 20)
+entry_frame2.pack(side='left', expand = True, fill = 'both', padx = 20, pady = 20)
+
+main_label1.pack(expand = True, fill = 'both')
+main_button1.pack(expand = True, fill = 'both', pady = 10)
+
+main_label2.pack(expand = True, fill = 'both')
+main_button2.pack(expand = True, fill = 'both', pady = 10)
+
+# run
+window.mainloop()
