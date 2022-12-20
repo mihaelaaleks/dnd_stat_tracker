@@ -5,9 +5,11 @@ SCREEN_HEIGHT = 720
 
 #background path
 BG_IMG = "assets/bg.jpg"
-
-# define colours 
-TEXT_COL = (255, 255, 255)
-
 # asset path
 BTN_IMG = "assets/rect.png"
+# font path
+FONT_STR = "assets/font.TTF"
+
+# define colours 
+TEXT_COL_WHITE = (255, 255, 255)
+
