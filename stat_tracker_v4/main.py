@@ -9,16 +9,16 @@ def roll_dice(max):
         
     return rolled_dice
 
-
-first_column = [[sg.Text('D&D Dice Helper')],
+#each array within first_column represents a row
+first_column = [[sg.Text('D&D Dice Helper', font='Courier 54')],
           [sg.Button('D20', font=("", 10, "bold"), size=(10, 5)), sg.Button('D12', font=("", 10, "bold"), size=(10, 5))],
           [sg.Button('D10', font=("", 10, "bold"), size=(10, 5)),sg.Button('D8', font=("", 10, "bold"), size=(10, 5))],
-          [sg.Button('D6', font=("", 10, "bold"), size=(10, 5)), sg.Button('D4', font=("", 10, "bold"), size=(10, 5))],[sg.Button('D100', font=("", 10, "bold"), size=(10, 5))],
-          [sg.Text('Your roll:', key= '_text_', visible = True)],
-          [sg.Text('Dice', key= '_text2_', visible = True)],
+          [sg.Button('D6', font=("", 10, "bold"), size=(10, 5)), sg.Button('D4', font=("", 10, "bold"), size=(10, 5))],
+          [sg.Button('D100', font=("", 10, "bold"), size=(10, 5))],
+          [sg.Text('Your roll:', font='Courier 54', key= '_text_', visible = True), sg.Text('Dice', font='Courier 54', key= '_text2_', visible = True)]
           ]
 
-second_column = []
+second_column = [[sg.Button('EXIT', button_color = 'Red', font=("", 10, "bold"), size=(10, 5))]]
 
 layout = [[sg.Column(first_column)],
           [sg.VSeparator()],
@@ -30,7 +30,7 @@ window.Maximize()
 while True:  # Event Loop
     event, values = window.read()
     print(event, values)
-    if event == sg.WIN_CLOSED:
+    if event == sg.WIN_CLOSED or event == 'EXIT':
         break
     if event == 'D20':
         window['_text2_'].update(f'{roll_dice(20)}')
