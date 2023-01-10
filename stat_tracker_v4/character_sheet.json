@@ -1,0 +1,20 @@
+    {
+        "character_name" : "Dude McMan",
+        "class" : "Barbarian",
+        "level" : "1",
+        "background" : "Entertainer",
+        "player_name" : "Mihaela",
+        "race" : "Half-Orc",
+        "alignment" : "Chaotic good",
+        "xp" : "120",
+        "armor_class" : 14,
+        "hp" : 13,
+        "ability_scores" : {
+            "str" : 16,
+            "dex" : 13,
+            "con" : 14,
+            "wis" : 6,
+            "int" : 8,
+            "cha" : 13
+        }
+    }
